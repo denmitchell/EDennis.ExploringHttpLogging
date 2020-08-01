@@ -29,5 +29,7 @@ namespace SampleHostedBlazorApp.Server {
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+
     }
 }

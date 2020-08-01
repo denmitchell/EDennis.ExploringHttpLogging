@@ -61,11 +61,12 @@ namespace SampleHostedBlazorApp.Server {
 
             app.UseRouting();
 
-            app.UseHttpLogging();
-
             app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseHttpLogging();
+
 
             app.UseEndpoints(endpoints =>
             {

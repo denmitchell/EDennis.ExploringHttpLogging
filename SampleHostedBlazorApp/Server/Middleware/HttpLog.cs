@@ -9,6 +9,8 @@ namespace SampleHostedBlazorApp.Server.Middleware {
         public string QueryString { get; set; }
         public string DisplayUrl { get; set; }
         public string Method { get; set; }
+        public Dictionary<string, List<string>> Claims { get; set; }
+        public Dictionary<string, List<string>> Headers { get; set; }
         public string Payload { get; set; }
         public string Response { get; set; }
         public string ResponseCode { get; set; }
