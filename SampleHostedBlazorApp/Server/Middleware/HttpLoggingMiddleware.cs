@@ -83,6 +83,13 @@ namespace SampleHostedBlazorApp.Server.Middleware {
 
 
         public async Task InvokeAsync(HttpContext context) {
+
+            if (context.Request.Path.Value.Contains("swagger")
+                || !_options.Enabled 
+                || (!MatchesQuery(context) && !MatchesClaim(context)))
+                await next.Invoke(context);
+
+
             // create a new log object
             var log = new HttpLog {
                 Path = context.Request.Path,
@@ -151,16 +158,25 @@ namespace SampleHostedBlazorApp.Server.Middleware {
         private bool MatchesClaim(HttpContext context) {
             var user = context.User;
             if (user == null)
-                return null;
+                return false;
 
             foreach (var entry in _options.ForClaims) {
-                var claims = user.Claims.Where(c => c.Type == entry.Key);
+                if (user.Claims.Any(c => c.Type == entry.Key && entry.Value.Contains(c.Value)))
+                    return true;
             }
 
+            return false;
         }
 
         private bool MatchesQuery(HttpContext context) {
+            var query = context.Request.Query;
+            if (query == null)
+                return false;
 
+            if (query.ContainsKey(_options.ForQueryKey))
+                return true;
+
+            return false;
         }
 
 

@@ -11,6 +11,6 @@ namespace SampleHostedBlazorApp.Server.Middleware {
         public bool IncludeHeaders { get; set; }
         public bool IncludeClaims { get; set; }
         public Dictionary<string, string[]> ForClaims { get; set; }
-        public Dictionary<string, string[]> ForQueries { get; set; }
+        public string ForQueryKey { get; set; }
     }
 }

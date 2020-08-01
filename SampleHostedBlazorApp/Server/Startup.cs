@@ -14,6 +14,7 @@ using System.Linq;
 using SampleHostedBlazorApp.Server.Data;
 using SampleHostedBlazorApp.Server.Models;
 using SampleHostedBlazorApp.Server.Middleware;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace SampleHostedBlazorApp.Server {
     public class Startup {
@@ -34,10 +35,17 @@ namespace SampleHostedBlazorApp.Server {
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options => {
+                    options.IdentityResources["openid"].UserClaims.Add("name");
+                    options.ApiResources.Single().UserClaims.Add("name");
+                    options.IdentityResources["openid"].UserClaims.Add("role");
+                    options.ApiResources.Single().UserClaims.Add("role");
+                });
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 
             services.AddControllersWithViews();
             services.AddRazorPages();

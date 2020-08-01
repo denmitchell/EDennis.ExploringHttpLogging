@@ -7,7 +7,5 @@
   "ForClaims": {
     "name": [ "d.connecticut@gmail.com" ]
   },
-  "ForQueries": {
-    "httplog": [ "true" ]
-  }
+  "ForQueryKey": "3af58255-279c-4800-8e28-41cab4fb65b7"
 }
