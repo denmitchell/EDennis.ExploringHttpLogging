@@ -5,7 +5,7 @@
   "IncludeHeaders": true,
   "IncludeClaims": true,
   "ForClaims": {
-    "name": [ "d.connecticut@gmail.com" ]
+    "name": [ "bob@a.test" ]
   },
   "ForQueryKey": "3af58255-279c-4800-8e28-41cab4fb65b7"
 }
