@@ -73,7 +73,7 @@ namespace SampleHostedBlazorApp.Server {
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseHttpLogging();
+            app.UseHttpLoggingFor("/WeatherForecast");
 
 
             app.UseEndpoints(endpoints =>

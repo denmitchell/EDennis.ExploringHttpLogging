@@ -7,10 +7,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IO;
+using SampleHostedBlazorApp.Client;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -83,6 +85,8 @@ namespace SampleHostedBlazorApp.Server.Middleware {
 
 
         public async Task InvokeAsync(HttpContext context) {
+
+            _logger.LogInformation($"*****PATH: {context.Request.Path.Value}");
 
             if (context.Request.Path.Value.Contains("swagger")
                 || !_options.Enabled 
@@ -183,10 +187,31 @@ namespace SampleHostedBlazorApp.Server.Middleware {
     }
 
     public static class IApplicationBuilderExtensions {
-        public static IApplicationBuilder UseHttpLogging(this IApplicationBuilder builder) {
-            builder.UseMiddleware<HttpLoggingMiddleware>();
-            return builder;
+        public static IApplicationBuilder UseHttpLogging(this IApplicationBuilder app) {
+            app.UseMiddleware<HttpLoggingMiddleware>();
+            return app;
         }
+
+        public static IApplicationBuilder UseHttpLoggingFor(this IApplicationBuilder app,
+            params string[] startsWithSegments) {
+            app.UseWhen(context =>
+                {
+                    foreach (var partialPath in startsWithSegments)
+                        if (context.Request.Path.StartsWithSegments(partialPath))
+                            return true;
+                    return false;
+                }, 
+                app => app.UseHttpLogging()
+            );
+            return app;
+        }
+
+        public static IApplicationBuilder UseHttpLoggingWhen(this IApplicationBuilder app,
+            Func<HttpContext,bool> predicate) {
+                app.UseWhen(predicate, app => app.UseHttpLogging());
+            return app;
+        }
+
 
     }
 
