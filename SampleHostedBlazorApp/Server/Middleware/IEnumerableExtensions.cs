@@ -84,15 +84,12 @@ namespace EDennis.NetStandard.Base {
 
 
 		/// <summary>
-		/// Packs an IEnumerable<KeyValuePair<string,string>> into a simple string
+		/// Packs an IEnumerable<KeyValuePair<string,string>> into a Dictionary
 		/// where 
 		/// <list type="bullet">
-		/// <item>key value pairs are separated from each other by ;</item>
-		/// <item>keys are separated from values by :</item>
-		/// <item>value items are separated from each other by ,</item>
+		/// <item>the key is the first tuple element</item>
+		/// <item>the value is a list of the second tuple element</item>
 		/// </list>
-		/// NOTE that by having value items (plural), keys are never repeated,
-		/// which keeps the entire string as small as possible.
 		/// </summary>
 		/// <typeparam name="T">The underlying type having one property as a key and the other as a value</typeparam>
 		/// <param name="kvs">The collection to pack into a string</param>
